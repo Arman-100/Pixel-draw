@@ -50,12 +50,20 @@ function onPaletteClick2() {
 
 $(".palette button").click(onPaletteClick2);
 
-const onGridClick = event => {
-  const selectedCell = event.target;
-  $(selectedCell).css("background-color", onPaletteClick2);
-};
+function onGridClick() {
+  let activeColor = $(".palette .active").css("backgroundColor");
+  let cellColor = $(this).css(`backgroundColor`);
 
-$(`.grid`).click(onGridClick);
+  $(this).css("backgroundColor", activeColor);
+
+  if (cellColor === activeColor) {
+    $(this).css("backgroundColor", "");
+  } else {
+    $(this).css("backgroundColor", activeColor);
+  }
+}
+
+$(`.grid .cell`).click(onGridClick);
 
 const onClearClick = () => {
   $(`.grid .cell`).css("backgroundColor", "");
@@ -69,3 +77,24 @@ const onFillAllClick = () => {
 };
 
 $(`.controls .fill`).click(onFillAllClick);
+
+function onFillEmptyClick() {
+  let gridCells = $(".grid .cell");
+
+  let activeColor = $(`.palette .active`).css("backgroundColor");
+
+  for (let i = 0; i < gridCells.length; i++) {
+    let nextCell = $(gridCells[i]);
+
+    if (nextCell.css("backgroundColor") === "rgba(0, 0, 0, 0)") {
+      nextCell.css("backgroundColor", activeColor);
+    }
+  }
+
+  // let filteredCell = gridCells.filter(
+  //   theCells => theCells.css("backgroundColor") === "rgb(0, 0, 0)"
+  // );
+  // filteredCell.css("backgroundColor", activeColor);
+}
+
+$(`.controls .fill-empty`).click(onFillEmptyClick);
